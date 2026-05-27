@@ -1,0 +1,269 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:50px;
+}
+
+.logo{
+    font-size:40px;
+    font-weight:bold;
+    color:#22c55e;
+}
+
+.tagline{
+    color:#94a3b8;
+    margin-top:8px;
+    font-size:18px;
+}
+
+.hero{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+    margin-top:50px;
+}
+
+.hero-text h1{
+    font-size:55px;
+    line-height:1.2;
+    margin-bottom:25px;
+}
+
+.hero-text span{
+    color:#22c55e;
+}
+
+.hero-text p{
+    color:#cbd5e1;
+    font-size:20px;
+    line-height:1.8;
+}
+
+.card{
+    background:#1e293b;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+
+.upload-box{
+    border:2px dashed #22c55e;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.upload-box h2{
+    margin-bottom:15px;
+}
+
+.upload-box p{
+    color:#cbd5e1;
+}
+
+input[type="file"]{
+    margin-top:20px;
+    color:white;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    background:#22c55e;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#16a34a;
+    transform:translateY(-2px);
+}
+
+.stats{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.stat-card{
+    background:#1e293b;
+    padding:30px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+.stat-card h2{
+    color:#22c55e;
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.stat-card p{
+    color:#cbd5e1;
+}
+
+.result-card{
+    max-width:700px;
+    margin:80px auto;
+    background:#1e293b;
+    padding:50px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,0,0,0.5);
+}
+
+.result-card h1{
+    color:#22c55e;
+    margin-bottom:30px;
+    font-size:45px;
+}
+
+.result-box{
+    background:#0b132b;
+    padding:40px;
+    border-radius:20px;
+    margin-top:25px;
+}
+
+.result-box h2{
+    margin:20px 0;
+    font-size:35px;
+}
+
+.result-box span{
+    color:#22c55e;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:35px;
+    padding:15px 28px;
+    background:#22c55e;
+    color:white;
+    text-decoration:none;
+    border-radius:12px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.back-btn:hover{
+    background:#16a34a;
+}
+
+@media(max-width:900px){
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .hero-text h1{
+        font-size:42px;
+    }
+
+}
+
+.progress-container{
+    width:100%;
+    background:#1e293b;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:20px;
+    height:40px;
+}
+
+.progress-bar{
+    height:100%;
+    background:linear-gradient(90deg,#22c55e,#16a34a);
+    text-align:center;
+    line-height:40px;
+    font-weight:bold;
+    color:white;
+    border-radius:20px;
+    transition:width 1s ease-in-out;
+}
+
+.top-nav{
+    width:100%;
+    padding:20px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#081028;
+}
+
+.nav-logo{
+    font-size:30px;
+    font-weight:bold;
+    color:#22c55e;
+}
+
+.nav-links a{
+    margin-left:25px;
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    color:#22c55e;
+}
+
+.waste-icon{
+    font-size:80px;
+    margin-bottom:20px;
+}
+
+.recommendation-box{
+    margin-top:35px;
+    padding:25px;
+    background:#111827;
+    border-radius:15px;
+}
+
+.recommendation-box h3{
+    color:#22c55e;
+    margin-bottom:15px;
+}
+
+.recommendation-box p{
+    color:#cbd5e1;
+    line-height:1.7;
+}
+
+.footer{
+    text-align:center;
+    padding:25px;
+    margin-top:40px;
+    color:#94a3b8;
+}

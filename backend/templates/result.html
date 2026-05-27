@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Prediction Result</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav class="top-nav">
+    <div class="nav-logo">IntelliBin</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/">Dashboard</a>
+        <a href="/">AI Detection</a>
+    </div>
+</nav>
+
+<div class="result-card">
+
+    <h1>AI Prediction Result</h1>
+
+    <div class="result-box">
+
+        <div class="waste-icon">
+            {{ icon }}
+        </div>
+
+        <h2>Detected Waste</h2>
+
+        <h2>
+            <span>{{ prediction }}</span>
+        </h2>
+
+        <br>
+
+        <h2>Confidence Score</h2>
+
+        <div class="progress-container">
+
+            <div 
+                class="progress-bar"
+                style="
+                    width: {{ confidence }};
+                    background: {{ confidence_color }};
+                "
+            >
+                {{ confidence }}
+            </div>
+
+        </div>
+
+        <div class="recommendation-box">
+
+            <h3>Smart Disposal Recommendation</h3>
+
+            <p>
+                {{ recommendation }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <a href="/" class="back-btn">
+        Try Another Image
+    </a>
+
+</div>
+
+<footer class="footer">
+    Powered by TensorFlow + Flask | Developed by Jadoo
+</footer>
+
+</body>
+</html>
