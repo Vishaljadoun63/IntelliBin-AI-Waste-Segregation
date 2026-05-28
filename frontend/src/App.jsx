@@ -422,7 +422,7 @@ const css = `
 // ── API call ─────────────────────────────────────────────────────────────────
 async function analyzeWasteImage(base64) {
 
-  const res = await fetch("http://127.0.0.1:5000/predict", {
+  const res = await fetch("https://intellibin-backend.onrender.com/predict", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
