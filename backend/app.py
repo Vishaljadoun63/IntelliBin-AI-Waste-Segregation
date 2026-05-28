@@ -10,7 +10,7 @@ from io import BytesIO
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 client = MongoClient("mongodb+srv://Vishaljadoun63:Vishal23BEC10063@cluster0.ndzsyby.mongodb.net/?appName=Cluster0")
 db = client["intellibin"]
 collection = db["detections"]
