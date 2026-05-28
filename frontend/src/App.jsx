@@ -835,10 +835,22 @@ function WebcamPage({ showToast }) {
       setStreaming(false);
     } else {
       captureAndAnalyze();
-      intervalRef.current = setInterval(captureAndAnalyze, 4000);
-      setStreaming(true);
-    }
-  };
+      intervalRef.current = setInterval(async () => {
+        if (!window.isPredicting) {
+          window.isPredicting = true;
+
+          try {
+            await captureAndAnalyze();
+          } catch (e) {
+            console.log(e);
+          }
+
+          window.isPredicting = false;
+        }
+      }, 8000);
+            setStreaming(true);
+          }
+        };
 
   useEffect(() => () => { stopCam(); }, []);
 
