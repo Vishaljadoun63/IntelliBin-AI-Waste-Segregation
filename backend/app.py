@@ -48,29 +48,47 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
 
+    print("STEP 1")
+
     # Get JSON data
     data = request.get_json()
+
+    print("STEP 2")
 
     # Get base64 image
     image_data = data["image"]
 
+    print("STEP 3")
+
     # Convert base64 to image
     image_bytes = base64.b64decode(image_data)
+
+    print("STEP 4")
 
     # Open image
     image = Image.open(BytesIO(image_bytes)).convert('RGB')
 
+    print("STEP 5")
+
     # Resize image
     image = image.resize((224, 224))
+
+    print("STEP 6")
 
     # Convert image to array
     img_array = np.array(image) / 255.0
 
+    print("STEP 7")
+
     # Expand dimensions
     img_array = np.expand_dims(img_array, axis=0)
 
+    print("STEP 8")
+
     # Prediction
     prediction = model.predict(img_array)
+
+    print("STEP 9")
 
     # Predicted class
     class_index = np.argmax(prediction)
@@ -78,17 +96,23 @@ def predict():
     # Confidence score
     confidence = float(np.max(prediction) * 100)
 
+    print("STEP 10")
+
     # Label
     label = classes[class_index]
 
+    print("STEP 11")
+
     # Save detection
     collection.insert_one({
-    "category": label,
-    "confidence": round(confidence, 1),
-    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    "recommendation": recommendations[label],
-    "co2_saved": 0.5
-})
+        "category": label,
+        "confidence": round(confidence, 1),
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "recommendation": recommendations[label],
+        "co2_saved": 0.5
+    })
+
+    print("STEP 12")
 
     # Return response
     return jsonify({
