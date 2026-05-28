@@ -836,18 +836,18 @@ function WebcamPage({ showToast }) {
     } else {
       captureAndAnalyze();
       intervalRef.current = setInterval(async () => {
-        if (!window.isPredicting) {
-          window.isPredicting = true;
+      if (!window.isPredicting) {
+        window.isPredicting = true;
 
-          try {
-            await captureAndAnalyze();
-          } catch (e) {
-            console.log(e);
-          }
-
-          window.isPredicting = false;
+        try {
+          await captureAndAnalyze();
+        } catch (e) {
+          console.log(e);
         }
-      }, 8000);
+
+        window.isPredicting = false;
+      }
+    }, 10000);
             setStreaming(true);
           }
         };

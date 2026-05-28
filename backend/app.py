@@ -71,7 +71,7 @@ def predict():
     print("STEP 5")
 
     # Resize image
-    image = image.resize((224, 224))
+    image = image.resize((128, 128))
 
     print("STEP 6")
 
