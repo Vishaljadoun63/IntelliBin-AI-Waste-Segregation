@@ -838,7 +838,7 @@ function WebcamPage({ showToast }) {
   );
 
   const b64 = canvasRef.current
-    .toDataURL("image/jpeg", 0.5)
+    .toDataURL("image/jpeg", 0.2)
     .split(",")[1];
 
   try {
@@ -867,7 +867,7 @@ function WebcamPage({ showToast }) {
 
         window.isPredicting = false;
       }
-    }, 3000);
+    }, 10000);
             setStreaming(true);
           }
         };

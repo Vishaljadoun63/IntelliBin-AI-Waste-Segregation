@@ -93,7 +93,7 @@ def predict():
         print("STEP 8")
 
         # Prediction
-        prediction = model.predict(img_array)
+        prediction = model(img_array, training=False).numpy()
 
         print("STEP 9")
 

@@ -1,8 +1,10 @@
 flask
 flask-cors
-tensorflow-cpu==2.21.0
-keras==3.14.1
-numpy
+
+tensorflow-cpu==2.12.0
+keras==2.12.0
+numpy==1.23.5
+
 pillow
 opencv-python-headless
 pymongo
