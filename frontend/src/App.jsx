@@ -436,6 +436,11 @@ async function analyzeWasteImage(base64) {
 
 console.log("RAW RESPONSE:", text);
 
+if (!res.ok) {
+  console.error("Backend Error:", text);
+  throw new Error(text);
+}
+
 const data = JSON.parse(text);
 
 console.log("Backend response:", data);
@@ -817,17 +822,32 @@ function WebcamPage({ showToast }) {
   };
 
   const captureAndAnalyze = useCallback(async () => {
-    if (!videoRef.current || !canvasRef.current) return;
-    const ctx = canvasRef.current.getContext("2d");
-    canvasRef.current.width = videoRef.current.videoWidth;
-    canvasRef.current.height = videoRef.current.videoHeight;
-    ctx.drawImage(videoRef.current, 0, 0);
-    const b64 = canvasRef.current.toDataURL("image/jpeg", .7).split(",")[1];
-    try {
-      const res = await analyzeWasteImage(b64);
-      setPrediction(res);
-    } catch { /* silent */ }
-  }, []);
+  if (!videoRef.current || !canvasRef.current) return;
+
+  const ctx = canvasRef.current.getContext("2d");
+
+  canvasRef.current.width = 224;
+  canvasRef.current.height = 224;
+
+  ctx.drawImage(
+    videoRef.current,
+    0,
+    0,
+    224,
+    224
+  );
+
+  const b64 = canvasRef.current
+    .toDataURL("image/jpeg", 0.5)
+    .split(",")[1];
+
+  try {
+    const res = await analyzeWasteImage(b64);
+    setPrediction(res);
+  } catch (err) {
+    console.error(err);
+  }
+}, []);
 
   const toggleStreaming = () => {
     if (streaming) {
@@ -847,7 +867,7 @@ function WebcamPage({ showToast }) {
 
         window.isPredicting = false;
       }
-    }, 10000);
+    }, 3000);
             setStreaming(true);
           }
         };

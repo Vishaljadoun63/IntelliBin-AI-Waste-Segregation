@@ -47,16 +47,23 @@ def home():
 # Prediction route
 @app.route('/predict', methods=['POST'])
 def predict():
+    try:
+        print("STEP 1")
 
-    print("STEP 1")
+        data = request.get_json(force=True)
 
-    # Get JSON data
-    data = request.get_json()
+        print("DATA RECEIVED:", type(data))
 
-    print("STEP 2")
+        if not data:
+            return jsonify({"error": "No JSON received"}), 400
+
+        print("STEP 2")
 
     # Get base64 image
-    image_data = data["image"]
+    image_data = data.get("image")
+
+    if not image_data:
+        return jsonify({"error": "No image found"}), 400
 
     print("STEP 3")
 
@@ -124,6 +131,15 @@ def predict():
         "recyclable": True,
         "co2_saved": 0.5
     })
+    except Exception as e:
+    import traceback
+
+    print("ERROR OCCURRED:")
+    traceback.print_exc()
+
+    return jsonify({
+        "error": str(e)
+    }), 500
 
 @app.route('/analytics', methods=['GET'])
 def analytics():
