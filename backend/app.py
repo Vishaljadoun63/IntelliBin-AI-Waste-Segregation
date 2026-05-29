@@ -59,87 +59,81 @@ def predict():
 
         print("STEP 2")
 
-    # Get base64 image
-    image_data = data.get("image")
+        # Get base64 image
+        image_data = data.get("image")
 
-    if not image_data:
-        return jsonify({"error": "No image found"}), 400
+        if not image_data:
+            return jsonify({"error": "No image found"}), 400
 
-    print("STEP 3")
+        print("STEP 3")
 
-    # Convert base64 to image
-    image_bytes = base64.b64decode(image_data)
+        # Convert base64 to image
+        image_bytes = base64.b64decode(image_data)
 
-    print("STEP 4")
+        print("STEP 4")
 
-    # Open image
-    image = Image.open(BytesIO(image_bytes)).convert('RGB')
+        # Open image
+        image = Image.open(BytesIO(image_bytes)).convert('RGB')
 
-    print("STEP 5")
+        print("STEP 5")
 
-    # Resize image
-    # Resize image
-    image = image.resize((224, 224))
+        # Resize image
+        image = image.resize((224, 224))
 
-    print("STEP 6")
+        print("STEP 6")
 
-    # Convert image to array
-    img_array = np.array(image) / 255.0
+        # Convert image to array
+        img_array = np.array(image) / 255.0
 
-    print("STEP 7")
+        print("STEP 7")
 
-    # Expand dimensions
-    img_array = np.expand_dims(img_array, axis=0)
+        # Expand dimensions
+        img_array = np.expand_dims(img_array, axis=0)
 
-    print("STEP 8")
+        print("STEP 8")
 
-    # Prediction
-    prediction = model.predict(img_array)
+        # Prediction
+        prediction = model.predict(img_array)
 
-    print("STEP 9")
+        print("STEP 9")
 
-    # Predicted class
-    class_index = np.argmax(prediction)
+        class_index = np.argmax(prediction)
+        confidence = float(np.max(prediction) * 100)
 
-    # Confidence score
-    confidence = float(np.max(prediction) * 100)
+        print("STEP 10")
 
-    print("STEP 10")
+        label = classes[class_index]
 
-    # Label
-    label = classes[class_index]
+        print("STEP 11")
 
-    print("STEP 11")
+        collection.insert_one({
+            "category": label,
+            "confidence": round(confidence, 1),
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "recommendation": recommendations[label],
+            "co2_saved": 0.5
+        })
 
-    # Save detection
-    collection.insert_one({
-        "category": label,
-        "confidence": round(confidence, 1),
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "recommendation": recommendations[label],
-        "co2_saved": 0.5
-    })
+        print("STEP 12")
 
-    print("STEP 12")
+        return jsonify({
+            "category": label,
+            "confidence": round(confidence, 1),
+            "reason": "Waste detected successfully",
+            "disposal": recommendations[label],
+            "recyclable": True,
+            "co2_saved": 0.5
+        })
 
-    # Return response
-    return jsonify({
-        "category": label,
-        "confidence": round(confidence, 1),
-        "reason": "Waste detected successfully",
-        "disposal": recommendations[label],
-        "recyclable": True,
-        "co2_saved": 0.5
-    })
     except Exception as e:
-    import traceback
+        import traceback
 
-    print("ERROR OCCURRED:")
-    traceback.print_exc()
+        print("ERROR OCCURRED:")
+        traceback.print_exc()
 
-    return jsonify({
-        "error": str(e)
-    }), 500
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 @app.route('/analytics', methods=['GET'])
 def analytics():
