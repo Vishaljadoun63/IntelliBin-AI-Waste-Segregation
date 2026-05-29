@@ -16,7 +16,7 @@ db = client["intellibin"]
 collection = db["detections"]
 
 # Load trained model
-model = tf.keras.models.load_model('../intellibin_model.h5')
+model = tf.keras.models.load_model('../intellibin_model.keras')
 
 # Waste categories
 classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic']

@@ -76,11 +76,11 @@ model.summary()
 history = model.fit(
     train_data,
     validation_data=val_data,
-    epochs=20
+    epochs=5
 )
 
 # Save model
-model.save("intellibin_model.h5")
+model.save("intellibin_model.keras")
 
 print("\nModel trained and saved successfully!")
 
