@@ -70,7 +70,6 @@ def predict():
 
         print("STEP 2")
 
-        # Get base64 image
         image_data = data.get("image")
 
         if not image_data:
@@ -78,32 +77,26 @@ def predict():
 
         print("STEP 3")
 
-        # Convert base64 to image
         image_bytes = base64.b64decode(image_data)
 
         print("STEP 4")
 
-        # Open image
-        image = Image.open(BytesIO(image_bytes)).convert('RGB')
+        image = Image.open(BytesIO(image_bytes)).convert("RGB")
 
         print("STEP 5")
 
-        # Resize image
         image = image.resize((224, 224))
 
         print("STEP 6")
 
-        # Convert image to array
         img_array = np.array(image) / 255.0
 
         print("STEP 7")
 
-        # Expand dimensions
         img_array = np.expand_dims(img_array, axis=0)
 
         print("STEP 8")
 
-        # Prediction
         prediction = model(img_array, training=False).numpy()
 
         print("STEP 9")
@@ -117,21 +110,26 @@ def predict():
 
         print("STEP 11")
 
-    try:
-        print("Trying MongoDB insert...")
+        recommendation = recommendations.get(
+            label,
+            "Dispose according to local waste management guidelines."
+        )
 
-        collection.insert_one({
-            "category": label,
-            "confidence": float(confidence),
-            "timestamp": datetime.now(),
-            "recommendation": recommendation,
-            "co2_saved": 0.5
-    })
+        try:
+            print("Trying MongoDB insert...")
 
-        print("✅ MongoDB insert success")
+            collection.insert_one({
+                "category": label,
+                "confidence": confidence,
+                "timestamp": datetime.now(),
+                "recommendation": recommendation,
+                "co2_saved": 0.5
+            })
 
-    except Exception as e:
-        print("❌ MongoDB Error:", str(e))
+            print("✅ MongoDB insert success")
+
+        except Exception as mongo_error:
+            print("❌ MongoDB Error:", str(mongo_error))
 
         print("STEP 12")
 
@@ -139,7 +137,7 @@ def predict():
             "category": label,
             "confidence": round(confidence, 1),
             "reason": "Waste detected successfully",
-            "disposal": recommendations[label],
+            "disposal": recommendation,
             "recyclable": True,
             "co2_saved": 0.5
         })
