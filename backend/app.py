@@ -12,7 +12,17 @@ from io import BytesIO
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
-client = MongoClient(os.environ.get("MONGODB_URI"))
+mongo_uri = os.environ.get("MONGODB_URI")
+
+client = MongoClient(
+    mongo_uri,
+    serverSelectionTimeoutMS=5000
+)
+
+# Test connection immediately
+client.admin.command("ping")
+print("✅ MongoDB Connected Successfully")
+
 db = client["intellibin"]
 collection = db["detections"]
 
@@ -107,13 +117,21 @@ def predict():
 
         print("STEP 11")
 
-        # collection.insert_one({
-        #     "category": label,
-        #     "confidence": round(confidence, 1),
-        #     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        #     "recommendation": recommendations[label],
-        #     "co2_saved": 0.5
-        # })
+    try:
+        print("Trying MongoDB insert...")
+
+        collection.insert_one({
+            "category": label,
+            "confidence": float(confidence),
+            "timestamp": datetime.now(),
+            "recommendation": recommendation,
+            "co2_saved": 0.5
+    })
+
+        print("✅ MongoDB insert success")
+
+    except Exception as e:
+        print("❌ MongoDB Error:", str(e))
 
         print("STEP 12")
 
