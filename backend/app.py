@@ -1,3 +1,4 @@
+import os
 from pymongo import MongoClient
 from flask_cors import CORS
 from datetime import datetime
@@ -11,12 +12,12 @@ from io import BytesIO
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
-client = MongoClient("mongodb+srv://Vishaljadoun63:Vishal23BEC10063@cluster0.ndzsyby.mongodb.net/?appName=Cluster0")
+client = MongoClient(os.environ.get("MONGODB_URI"))
 db = client["intellibin"]
 collection = db["detections"]
 
 # Load trained model
-model = tf.keras.models.load_model('../intellibin_model.keras')
+model = tf.keras.models.load_model("intellibin_model.keras")
 
 # Waste categories
 classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
