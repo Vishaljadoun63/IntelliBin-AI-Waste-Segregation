@@ -107,13 +107,13 @@ def predict():
 
         print("STEP 11")
 
-        collection.insert_one({
-            "category": label,
-            "confidence": round(confidence, 1),
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "recommendation": recommendations[label],
-            "co2_saved": 0.5
-        })
+        # collection.insert_one({
+        #     "category": label,
+        #     "confidence": round(confidence, 1),
+        #     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        #     "recommendation": recommendations[label],
+        #     "co2_saved": 0.5
+        # })
 
         print("STEP 12")
 
