@@ -965,24 +965,25 @@ function AnalyticsPage({ history }) {
   const mostDetected = analytics?.most_detected || "None";
   const co2Saved = analytics?.co2_saved || 0;
   const recyclingScore = analytics?.recycling_score || 0;
-  const pieData = analytics
-  ? Object.entries(analytics.categories).map(([name, value]) => ({
-      name,
-      value,
-      color: WASTE_CATEGORIES[name]?.color || "#8884d8"
-    }))
-  : [];
-  const barData = analytics
-  ? [
-      { day: "Mon", detections: analytics.weekly[0] },
-      { day: "Tue", detections: analytics.weekly[1] },
-      { day: "Wed", detections: analytics.weekly[2] },
-      { day: "Thu", detections: analytics.weekly[3] },
-      { day: "Fri", detections: analytics.weekly[4] },
-      { day: "Sat", detections: analytics.weekly[5] },
-      { day: "Sun", detections: analytics.weekly[6] }
-    ]
-  : [];
+  const pieData = analytics?.categories
+    ? Object.entries(analytics.categories).map(([name, value]) => ({
+        name,
+        value,
+        color: WASTE_CATEGORIES[name]?.color || "#8884d8"
+      }))
+    : [];
+
+  const weekly = analytics?.weekly || [0, 0, 0, 0, 0, 0, 0];
+
+  const barData = [
+    { day: "Mon", detections: weekly[0] },
+    { day: "Tue", detections: weekly[1] },
+    { day: "Wed", detections: weekly[2] },
+    { day: "Thu", detections: weekly[3] },
+    { day: "Fri", detections: weekly[4] },
+    { day: "Sat", detections: weekly[5] },
+    { day: "Sun", detections: weekly[6] }
+  ];
   const lineData = [
   { month: "Jan", co2: co2Saved * 0.2, items: totalDetections * 0.2 },
   { month: "Feb", co2: co2Saved * 0.4, items: totalDetections * 0.4 },
@@ -1022,13 +1023,15 @@ const impactStats = [
 ];
   
   useEffect(() => {
-  fetch("http://127.0.0.1:5000/analytics")
+  fetch("https://intellibin-ai-waste-segregation-production.up.railway.app/analytics")
     .then(res => res.json())
     .then(data => {
       console.log("Analytics:", data);
       setAnalytics(data);
+      })
+    .catch(err => {
+      console.error("Analytics Error:", err);
     });
-
 }, []);
 
   return (
@@ -1111,11 +1114,14 @@ const impactStats = [
 function HistoryPage({ history }) {
   const [historyData, setHistoryData] = useState([]);
   useEffect(() => {
-  fetch("http://127.0.0.1:5000/history")
+  fetch("https://intellibin-ai-waste-segregation-production.up.railway.app/history")
     .then(res => res.json())
     .then(data => {
       console.log("History:", data);
       setHistoryData(data);
+      })
+    .catch(err => {
+      console.error("Analytics Error:", err);
     });
 }, []);
   return (
@@ -1233,11 +1239,14 @@ function HistoryPage({ history }) {
 function CO2Page({ history }) {
   const [analytics, setAnalytics] = useState(null);
   useEffect(() => {
-  fetch("http://127.0.0.1:5000/analytics")
+  fetch("https://intellibin-ai-waste-segregation-production.up.railway.app/analytics")
     .then(res => res.json())
     .then(data => {
       console.log("CO2 Analytics:", data);
       setAnalytics(data);
+      })
+    .catch(err => {
+      console.error("Analytics Error:", err);
     });
 }, []);
 const totalCO2 = analytics?.co2_saved || 0;
