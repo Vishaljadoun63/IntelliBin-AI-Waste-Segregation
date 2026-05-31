@@ -84,9 +84,14 @@ def predict():
         img_array = np.expand_dims(img_array, axis=0)
 
         prediction = model(img_array, training=False).numpy()
+        
+        print("RAW PREDICTION:", prediction)
 
         confidence = float(np.max(prediction) * 100)
         class_index = np.argmax(prediction)
+
+        print("CONFIDENCE:", confidence)
+        print("CLASS INDEX:", class_index)
 
         if confidence < 80:
             return jsonify({
