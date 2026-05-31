@@ -1124,6 +1124,19 @@ function HistoryPage({ history }) {
       console.error("Analytics Error:", err);
     });
 }, []);
+  const formatIST = (timestamp) => {
+    return new Date(timestamp).toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    });
+  };
+
   return (
     <div className="page" style={{ paddingTop: "85px" }}>
       <div className="section-title">🕐 Detection History</div>
@@ -1210,7 +1223,7 @@ function HistoryPage({ history }) {
             fontSize: ".8rem"
           }}
         >
-          {row.timestamp || "Just now"}
+          {row.timestamp ? formatIST(row.timestamp) : "Just now"}
         </td>
 
         <td
