@@ -85,8 +85,15 @@ def predict():
 
         prediction = model(img_array, training=False).numpy()
 
-        class_index = np.argmax(prediction)
         confidence = float(np.max(prediction) * 100)
+        class_index = np.argmax(prediction)
+
+        if confidence < 80:
+            return jsonify({
+                "category": "unknown",
+                "confidence": round(confidence, 1),
+                "reason": "Object not recognized as waste"
+            })
 
         label = classes[class_index]
 
