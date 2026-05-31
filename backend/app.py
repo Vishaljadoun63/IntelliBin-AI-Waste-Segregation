@@ -59,7 +59,7 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        print("STEP 1")
+        print("RECEIVING DATA")
 
         data = request.get_json(force=True)
 
@@ -68,47 +68,27 @@ def predict():
         if not data:
             return jsonify({"error": "No JSON received"}), 400
 
-        print("STEP 2")
-
         image_data = data.get("image")
 
         if not image_data:
             return jsonify({"error": "No image found"}), 400
 
-        print("STEP 3")
-
         image_bytes = base64.b64decode(image_data)
-
-        print("STEP 4")
 
         image = Image.open(BytesIO(image_bytes)).convert("RGB")
 
-        print("STEP 5")
-
         image = image.resize((224, 224))
-
-        print("STEP 6")
 
         img_array = np.array(image) / 255.0
 
-        print("STEP 7")
-
         img_array = np.expand_dims(img_array, axis=0)
 
-        print("STEP 8")
-
         prediction = model(img_array, training=False).numpy()
-
-        print("STEP 9")
 
         class_index = np.argmax(prediction)
         confidence = float(np.max(prediction) * 100)
 
-        print("STEP 10")
-
         label = classes[class_index]
-
-        print("STEP 11")
 
         recommendation = recommendations.get(
             label,

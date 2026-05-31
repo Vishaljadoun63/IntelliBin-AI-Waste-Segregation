@@ -1499,7 +1499,8 @@ export default function App() {
       {/* Footer */}
       <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid var(--border)", padding: "1.5rem 2rem", textAlign: "center" }}>
         <div style={{ fontFamily: "var(--font-head)", color: "var(--green)", fontSize: ".9rem", marginBottom: ".25rem" }}>INTELLIBIN</div>
-        <div style={{ color: "var(--muted)", fontSize: ".75rem" }}>Think Smart. Dispose Smart. © 2025 IntelliBin — AI-Powered Waste Intelligence</div>
+        <div style={{ color: "var(--muted)", fontSize: ".75rem" }}>Think Smart. Dispose Smart. © 2026 IntelliBin — AI-Powered Waste Intelligence</div>
+        <div style={{ color: "var(--muted)", fontSize: ".75rem" }}>© Made with ❤️ by VISHAL JADOUN</div>
       </footer>
 
       {toast && <Toast msg={toast} onClose={hideToast} />}
