@@ -32,6 +32,11 @@ MODEL_PATH = os.path.join(
     "intellibin_model.keras"
 )
 
+print("CURRENT DIRECTORY:", os.getcwd())
+print("APP FILE:", __file__)
+print("MODEL PATH:", MODEL_PATH)
+print("FILES IN CURRENT DIR:", os.listdir("."))
+
 model = tf.keras.models.load_model(MODEL_PATH)
 
 # Waste categories
