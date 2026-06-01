@@ -106,12 +106,20 @@ const css = `
   box-shadow:0 10px 30px rgba(0,0,0,0.05);
 }
   .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(2,11,24,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-  .nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
-  .logo{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--green);letter-spacing:2px}
+  .nav-inner{max-width:1280px;margin:0 auto;padding:0 1.25rem;height:64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;overflow:hidden}
+  .logo{font-family:var(--font-head);font-size:1.4rem;font-weight:900;color:var(--green);letter-spacing:2px;white-space:nowrap;flex-shrink:0;cursor:pointer}
   .logo span{color:var(--text);font-weight:400}
-  .nav-links{display:flex;gap:.5rem;flex-wrap:wrap}
-  .nav-btn{background:none;border:none;color:var(--muted);font-family:var(--font-body);font-size:.85rem;padding:.5rem .8rem;border-radius:8px;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+  .nav-links{display:flex;gap:.5rem;flex-wrap:nowrap;overflow:hidden}
+  .nav-btn{background:none;border:none;color:var(--muted);font-family:var(--font-body);font-size:.85rem;padding:.5rem .8rem;border-radius:8px;cursor:pointer;transition:all .2s;letter-spacing:.5px;white-space:nowrap}
   .nav-btn:hover,.nav-btn.active{color:var(--green);background:var(--green3)}
+  .hamburger{display:none;background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;flex-shrink:0;padding:.25rem .5rem;line-height:1}
+  @media(max-width:768px){
+    .hamburger{display:block}
+    .nav-links{display:none;position:absolute;top:64px;right:0;left:0;background:rgba(10,5,30,0.97);backdrop-filter:blur(20px);flex-direction:column;padding:.75rem 1rem;border-bottom:1px solid var(--border);gap:.25rem;z-index:99}
+    .nav-links.open{display:flex}
+    .nav-btn{width:100%;text-align:left;padding:.65rem 1rem;font-size:.9rem}
+    .logo{font-size:1.15rem}
+  }
   .page{min-height:100vh;padding:40px 2rem 4rem;max-width:1280px;margin:0 auto}
   
   .hero{
@@ -144,7 +152,7 @@ const css = `
   display:flex;
 
   justify-content:center;
-  padding-top:40px;  // Adjusted padding for better vertical alignment
+  padding-top:40px;
 }
   .hero-buttons{
   display:flex;
@@ -376,7 +384,11 @@ const css = `
   transform:translateY(-2px);
 
 }
-  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+  .stat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;
+}
   .stat-card{padding:1.25rem 1.5rem}
   .stat-label{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
   .stat-value{font-family:var(--font-head);font-size:2rem;font-weight:700;color:var(--green)}
@@ -407,21 +419,89 @@ const css = `
   .env-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#00cc6a,#00ff88);animation:growBar 1.5s ease forwards}
   @keyframes growBar{from{width:0}}
   .impact-icon{font-size:2.5rem;margin-bottom:.75rem}
-  .tips-scroll{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.5rem}
-  .tips-scroll::-webkit-scrollbar{height:3px}
-  .tip-card{min-width:240px;padding:1rem 1.25rem;flex-shrink:0}
+.tips-scroll{
+  display:flex;
+  gap:1rem;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:.5rem;
+  scrollbar-width:thin;
+  scroll-behavior:smooth;
+}
+
+.tips-scroll::-webkit-scrollbar{
+  height:6px;
+}
+
+.tips-scroll::-webkit-scrollbar-track{
+  background:rgba(255,255,255,0.08);
+  border-radius:999px;
+}
+
+.tips-scroll::-webkit-scrollbar-thumb{
+  background: linear-gradient(
+    90deg,
+    #FF653F,
+    #FFC85C
+  );
+  border-radius:999px;
+}
+
+.tip-card{
+  width:320px;
+  min-width:320px;
+  max-width:320px;
+  flex:0 0 320px;
+
+  padding:1rem 1.25rem;
+  box-sizing:border-box;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  overflow:hidden;
+}
+
+@media(max-width:768px){
+
+  .feature-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .feature-item{
+    width:100%;
+  }
+
+}
+html,
+body,
+#root{
+  overflow-x:hidden;
+  max-width:100%;
+}
+
   .floating{animation:float 6s ease-in-out infinite} @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
   .about-hero{background:radial-gradient(ellipse at 50% 0%,rgba(0,255,136,0.08) 0%,transparent 70%);text-align:center;padding:3rem 1rem}
-  .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0}
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1rem;
+  }
   .feature-item{padding:1.25rem;text-align:center}
   .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto} @keyframes spin{to{transform:rotate(360deg)}}
   .counter{font-family:var(--font-head)}
 `;
 
+
+
 // ── API call ─────────────────────────────────────────────────────────────────
 async function analyzeWasteImage(base64) {
 
+  //const res = await fetch("http://localhost:5000/predict", {
   const res = await fetch("https://intellibin-ai-waste-segregation-production.up.railway.app/predict", {
     method: "POST",
     headers: {
@@ -617,17 +697,35 @@ function HomePage({ setPage }) {
         ))}
       </div>
 
-      <div style={{ marginTop: "3rem" }}>
-        <div className="section-title">Sustainability Tips</div>
-        <div className="tips-scroll">
-          {SUSTAINABILITY_TIPS.map((tip, i) => (
-            <div key={i} className="glass tip-card">
-              <div style={{ color: "var(--green)", fontSize: "1.2rem", marginBottom: ".5rem" }}>💡</div>
-              <div style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.6 }}>{tip}</div>
-            </div>
-          ))}
+<div style={{ marginTop: "3rem" }}>
+  <div className="section-title">Sustainability Tips</div>
+
+    <div className="tips-scroll">
+      {SUSTAINABILITY_TIPS.map((tip, i) => (
+        <div key={i} className="glass tip-card">
+          <div
+            style={{
+              color: "var(--green)",
+              fontSize: "1.2rem",
+              marginBottom: ".5rem"
+            }}
+          >
+            💡
+          </div>
+
+          <div
+            style={{
+              fontSize: ".85rem",
+              color: "var(--muted)",
+              lineHeight: 1.6
+            }}
+          >
+            {tip}
+          </div>
         </div>
-      </div>
+      ))}
+    </div>
+</div>
 
       <div className="glass glow-box floating" style={{ marginTop: "3rem", padding: "2rem", textAlign: "center", background: "radial-gradient(ellipse at 50% 50%, rgba(0,255,136,0.06) 0%, transparent 70%)" }}>
         <div style={{ fontFamily: "var(--font-head)", fontSize: "clamp(1rem,3vw,1.5rem)", marginBottom: ".5rem" }}>Ready to make a difference?</div>
@@ -716,9 +814,10 @@ function DetectPage({ history, setHistory, showToast }) {
   <div
     style={{
       position: "fixed",
-      right: "30px",
-      bottom: "30px",
-      width: "320px",
+      right: "10px",
+      bottom: "10px",
+      width: "calc(100vw - 20px)",
+      maxWidth: "320px",
       zIndex: 9999,
       background: "rgba(32, 24, 64, 0.95)",
       border: "1px solid rgba(255,255,255,0.12)",
@@ -1452,6 +1551,7 @@ function AboutPage() {
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [history, setHistory] = useState([]);
   const [toast, setToast] = useState(null);
 
@@ -1474,13 +1574,35 @@ export default function App() {
 
       {/* BG grid pattern */}
       <nav className="nav" style={{ zIndex: 100 }}>
-        <div className="nav-inner">
-          <div className="logo" onClick={() => setPage("home")} style={{ cursor: "pointer" }}>
-            INTELLI<span>BIN</span>
-          </div>
-          <div className="nav-links">
+      <div className="nav-inner">
+
+        <div
+          className="logo"
+          onClick={() => setPage("home")}
+          style={{ cursor: "pointer" }}
+        >
+          INTELLI<span>BIN</span>
+        </div>
+
+        <button
+          className="hamburger"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
+
+        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
             {PAGES.map(p => (
-              <button key={p.id} className={`nav-btn ${page === p.id ? "active" : ""}`} onClick={() => setPage(p.id)}>{p.label}</button>
+              <button
+                key={p.id}
+                className={`nav-btn ${page === p.id ? "active" : ""}`}
+                onClick={() => {
+                  setPage(p.id);
+                  setMenuOpen(false);
+                }}
+              >
+                {p.label}
+              </button>
             ))}
           </div>
         </div>

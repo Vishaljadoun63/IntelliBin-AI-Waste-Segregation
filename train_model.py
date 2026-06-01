@@ -4,6 +4,7 @@ from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 
 # Dataset path
@@ -64,19 +65,29 @@ model = Sequential([
 
 # Compile model
 model.compile(
-    optimizer=Adam(learning_rate=0.001),
+    optimizer=Adam(learning_rate=0.0001),
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
 
 # Show model summary
 model.summary()
+print("\nClasses Found:")
+print(train_data.class_indices)
+print(f"\nTotal Classes: {train_data.num_classes}")
 
 # Train model
+early_stop = EarlyStopping(
+    monitor='val_accuracy',
+    patience=3,
+    restore_best_weights=True
+)
+
 history = model.fit(
     train_data,
     validation_data=val_data,
-    epochs=5
+    epochs=20,
+    callbacks=[early_stop]
 )
 
 # Save model

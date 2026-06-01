@@ -27,10 +27,15 @@ db = client["intellibin"]
 collection = db["detections"]
 
 # Load trained model
-model = tf.keras.models.load_model("intellibin_model.keras")
+MODEL_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "intellibin_model.keras"
+)
+
+model = tf.keras.models.load_model(MODEL_PATH)
 
 # Waste categories
-classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic']
+classes = ['cardboard', 'glass', 'metal', 'paper', 'plastic', "unknown"]
 
 # Waste icons
 icons = {
@@ -38,7 +43,8 @@ icons = {
     'glass': '🍾',
     'metal': '🔩',
     'paper': '📄',
-    'plastic': '🧴'
+    'plastic': '🧴',
+    'unknown': '❓'
 }
 
 # Disposal recommendations
@@ -47,7 +53,8 @@ recommendations = {
     'glass': 'Dispose carefully in glass recycling container.',
     'metal': 'Send to metal recycling facility.',
     'paper': 'Place in paper recycling bin.',
-    'plastic': 'Dispose in plastic recycling bin.'
+    'plastic': 'Dispose in plastic recycling bin.',
+    'unknown': 'Object not recognized as recyclable waste.'
 }
 
 # Home route
@@ -84,21 +91,9 @@ def predict():
         img_array = np.expand_dims(img_array, axis=0)
 
         prediction = model(img_array, training=False).numpy()
-        
-        print("RAW PREDICTION:", prediction)
 
         confidence = float(np.max(prediction) * 100)
         class_index = np.argmax(prediction)
-
-        print("CONFIDENCE:", confidence)
-        print("CLASS INDEX:", class_index)
-
-        if confidence < 80:
-            return jsonify({
-                "category": "unknown",
-                "confidence": round(confidence, 1),
-                "reason": "Object not recognized as waste"
-            })
 
         label = classes[class_index]
 
@@ -122,8 +117,6 @@ def predict():
 
         except Exception as mongo_error:
             print("❌ MongoDB Error:", str(mongo_error))
-
-        print("STEP 12")
 
         return jsonify({
             "category": label,
