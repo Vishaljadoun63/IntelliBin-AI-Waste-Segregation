@@ -1,7 +1,7 @@
 import tensorflow as tf
-import cv2
-import numpy as np
 
 print("TensorFlow Version:", tf.__version__)
-print("OpenCV Working Successfully")
-print("NumPy Working Successfully")
+
+model = tf.keras.models.load_model("backend/intellibin_model.keras")
+
+print("MODEL LOADED SUCCESSFULLY")
